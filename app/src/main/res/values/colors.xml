@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Colores de fondo -->
+    <color name="backgroundColor">#F5F5F5</color>
+    <color name="textPrimary">#212121</color>
+    <color name="textSecondary">#757575</color>
+    <color name="buttonColor">#6200EE</color>
+    <color name="white">#FFFFFF</color>
+
+    <!-- Colores para respuestas -->
+    <color name="correctAnswer">#4CAF50</color>
+    <color name="incorrectAnswer">#F44336</color>
+    <color name="defaultAnswer">#E0E0E0</color>
+</resources>
