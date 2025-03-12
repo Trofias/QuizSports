@@ -23,6 +23,7 @@
         <activity android:name=".GameActivity" />
         <activity android:name=".InfoActivity" />
         <activity android:name=".RankingActivity" />
+
     </application>
 
 
