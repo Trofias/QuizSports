@@ -8,6 +8,8 @@
     android:background="@color/backgroundColor"
     tools:context=".MainActivity">
 
+
+
     <ImageView
         android:id="@+id/logoImage"
         android:layout_width="150dp"
@@ -43,6 +45,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"/>
+
+
 
     <Button
         android:id="@+id/btnStartGame"
