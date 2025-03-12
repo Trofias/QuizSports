@@ -1,6 +1,7 @@
 package com.example.quizsports;
 import java.util.List;
 
+
 public class Question {
     private int id;
     private String questionText;

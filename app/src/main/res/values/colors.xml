@@ -7,6 +7,7 @@
     <color name="buttonColor">#6200EE</color>
     <color name="white">#FFFFFF</color>
 
+
     <!-- Colores para respuestas -->
     <color name="correctAnswer">#4CAF50</color>
     <color name="incorrectAnswer">#F44336</color>

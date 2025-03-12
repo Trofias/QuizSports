@@ -8,6 +8,7 @@
     android:background="@color/backgroundColor"
     tools:context=".GameActivity">
 
+
     <androidx.cardview.widget.CardView
         android:id="@+id/questionCard"
         android:layout_width="0dp"

@@ -8,7 +8,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class RankingActivity extends AppCompatActivity {
-
     private TextView rankingTextView;
 
     @Override

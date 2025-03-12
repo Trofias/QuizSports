@@ -7,6 +7,7 @@
     android:padding="16dp"
     tools:context=".RankingActivity">
 
+
     <TextView
         android:id="@+id/rankingTextView"
         android:layout_width="match_parent"

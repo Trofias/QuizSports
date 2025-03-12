@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+
 public class GameActivity extends AppCompatActivity {
 
     private CardView questionCard;
