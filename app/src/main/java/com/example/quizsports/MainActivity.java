@@ -12,6 +12,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button btnStartGame;
     private Button btnInfo;
+    private Button btnRanking;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
         btnStartGame = findViewById(R.id.btnStartGame);
         btnInfo = findViewById(R.id.btnInfo);
+        btnRanking = findViewById(R.id.btnRanking);
 
         btnStartGame.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -33,6 +35,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent infoIntent = new Intent(MainActivity.this, InfoActivity.class);
                 startActivity(infoIntent);
+            }
+        });
+
+        btnRanking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent rankingIntent = new Intent(MainActivity.this, RankingActivity.class);
+                startActivity(rankingIntent);
             }
         });
     }
