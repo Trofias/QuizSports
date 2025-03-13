@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Colores de fondo -->
-    <color name="backgroundColor">#F5F5F5</color>
+    <color name="backgroundColor">#c4ff83</color>
     <color name="textPrimary">#212121</color>
     <color name="textSecondary">#757575</color>
-    <color name="buttonColor">#6200EE</color>
+    <color name="buttonColor">#AA6BEF</color>
     <color name="white">#FFFFFF</color>
 
 
