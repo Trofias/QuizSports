@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void showNameDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Enter your name");
+        builder.setTitle("Escriu el teu nom");
 
         final EditText input = new EditText(this);
         builder.setView(input);

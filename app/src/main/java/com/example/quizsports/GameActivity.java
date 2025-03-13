@@ -172,7 +172,7 @@ public class GameActivity extends AppCompatActivity {
             currentQuestionIndex++;
         } else {
             // Mostrar resultado y guardar puntuación
-            String resultMessage = "Game Over, " + playerName + "! You got " + correctAnswersCount + " out of 10 correct.";
+            String resultMessage = "final de la partida, " + playerName + "! Has respós " + correctAnswersCount + " de 10 correctament.";
             statusMessage.setText(resultMessage);
             new SaveScoreTask().execute("http://172.20.10.2/guardar_puntuacion.php", playerName, String.valueOf(correctAnswersCount));
 
@@ -184,11 +184,11 @@ public class GameActivity extends AppCompatActivity {
     private void checkAnswer(RadioButton selected) {
         if (selected.getText().toString().equals(correctAnswer)) {
             selected.setBackgroundResource(R.color.correctAnswer);
-            Toast.makeText(this, "Correct!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Correcte!", Toast.LENGTH_SHORT).show();
             correctAnswersCount++;
         } else {
             selected.setBackgroundResource(R.color.incorrectAnswer);
-            Toast.makeText(this, "Wrong! The correct answer was: " + correctAnswer, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Incorrecte! La resposta correcta era: " + correctAnswer, Toast.LENGTH_SHORT).show();
         }
         updateScoreCounter();
     }
