@@ -250,7 +250,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void endGame() {
-        String resultMessage = "Fin del juego, " + playerName + "! Has acertado " + correctAnswersCount + " de 10.";
+        String resultMessage = "                      Bona partida, " + playerName + ".";
         statusMessage.setText(resultMessage);
         new SaveScoreTask().execute("http://172.20.10.2/guardar_puntuacion.php", playerName, String.valueOf(correctAnswersCount));
         btnBackToMenu.setVisibility(View.VISIBLE);
