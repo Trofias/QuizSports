@@ -8,12 +8,24 @@
     android:background="@color/backgroundColor"
     tools:context=".GameActivity">
 
+    <ImageButton
+        android:id="@+id/btnSettings"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_volume"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Ajustes de sonido"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="16dp"/>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/questionCard"
         android:layout_width="0dp"
         android:layout_height="300dp"
-        android:layout_margin="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="16dp"
         app:cardCornerRadius="16dp"
         app:cardElevation="8dp"
         android:clickable="true"
@@ -67,7 +79,7 @@
         app:layout_constraintTop_toBottomOf="@id/questionCard"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="32dp">
 
         <RadioButton
             android:id="@+id/answer1"
@@ -114,7 +126,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="24dp"/>
 
-
     <Button
         android:id="@+id/btnBackToMenu"
         android:layout_width="wrap_content"
@@ -127,12 +138,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="24dp"
         android:visibility="gone"/>
-
-
-
-
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

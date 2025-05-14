@@ -8,7 +8,6 @@
     android:background="@color/backgroundColor"
     tools:context=".InfoActivity">
 
-
     <TextView
         android:id="@+id/infoTitle"
         android:layout_width="wrap_content"
@@ -28,7 +27,7 @@
         app:layout_constraintTop_toBottomOf="@id/infoTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnBack"
         android:padding="16dp">
 
         <LinearLayout
@@ -53,4 +52,14 @@
                 android:padding="8dp"/>
         </LinearLayout>
     </ScrollView>
+
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tornar al menu"
+        android:backgroundTint="@color/buttonColor"
+        android:layout_margin="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

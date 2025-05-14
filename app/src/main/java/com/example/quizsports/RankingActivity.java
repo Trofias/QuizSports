@@ -1,30 +1,133 @@
 package com.example.quizsports;
 
-import android.graphics.Typeface;
+import android.media.AudioAttributes;
+import android.media.SoundPool;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
-import android.text.style.RelativeSizeSpan;
-import android.text.style.StyleSpan;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import android.content.Intent;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 
 public class RankingActivity extends AppCompatActivity {
 
     private TextView rankingTextView;
+    private SoundPool soundPool;
+    private int buttonClickSound;
+
+    //gestures
+    private GestureDetector gestureDetector;
+    private View mainView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ranking);
 
-        rankingTextView = findViewById(R.id.rankingTextView);
+        // 1. Configurar SoundPool para efectos de sonido
+        setupSoundEffects();
 
+        // 2. Inicializar vistas
+        rankingTextView = findViewById(R.id.rankingTextView);
+        Button btnBack = findViewById(R.id.btnBack);
+
+        // 3. Configurar botón de volver con sonido
+        setupBackButton(btnBack);
+
+        // 4. Cargar datos del ranking
+        loadRankingData();
+
+        //gesture ir al menu
+        mainView = findViewById(android.R.id.content);
+
+        gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
+            private static final int SWIPE_THRESHOLD = 100;
+            private static final int SWIPE_VELOCITY_THRESHOLD = 100;
+
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                float diffX = e2.getX() - e1.getX();
+                float diffY = e2.getY() - e1.getY();
+
+                if (Math.abs(diffX) > Math.abs(diffY)) {
+                    if (diffX > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+                        // Swipe de izquierda a derecha
+                        Intent intent = new Intent(RankingActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish(); // opcional si no quieres que quede en el stack
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+
+    }
+
+    private void setupSoundEffects() {
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build();
+
+        soundPool = new SoundPool.Builder()
+                .setMaxStreams(2)
+                .setAudioAttributes(audioAttributes)
+                .build();
+
+        buttonClickSound = soundPool.load(this, R.raw.button_click, 1);
+    }
+
+    private void setupBackButton(Button btnBack) {
+        btnBack.setOnClickListener(v -> {
+            // Reproducir sonido y cerrar actividad
+            playSound(buttonClickSound);
+            v.postDelayed(this::finish, 200); // Delay para escuchar el sonido
+        });
+    }
+
+    private void loadRankingData() {
         new GetRankingTask().execute("http://172.20.10.2/obtener_puntuaciones.php");
+    }
+
+    private void playSound(int soundId) {
+        soundPool.play(soundId, 1.0f, 1.0f, 0, 0, 1.0f);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (soundPool != null) {
+            soundPool.autoPause();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (soundPool != null) {
+            soundPool.autoResume();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (soundPool != null) {
+            soundPool.release();
+            soundPool = null;
+        }
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        gestureDetector.onTouchEvent(ev);
+        return super.dispatchTouchEvent(ev);
     }
 
     private class GetRankingTask extends AsyncTask<String, Void, String> {
@@ -39,7 +142,7 @@ public class RankingActivity extends AppCompatActivity {
             if (result != null) {
                 try {
                     JSONArray jsonArray = new JSONArray(result);
-                    SpannableStringBuilder rankingBuilder = new SpannableStringBuilder();
+                    StringBuilder rankingBuilder = new StringBuilder();
 
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -47,55 +150,34 @@ public class RankingActivity extends AppCompatActivity {
                         int puntuacion = jsonObject.getInt("puntuacion");
                         String fechaHora = jsonObject.getString("fecha_hora");
 
-                        // Asignar emoji de medalla o número de posición
                         String position;
                         switch (i) {
-                            case 0:
-                                position = "🥇";
-                                break;
-                            case 1:
-                                position = "🥈";
-                                break;
-                            case 2:
-                                position = "🥉";
-                                break;
-                            default:
-                                position = (i + 1) + ".";
-                                break;
+                            case 0: position = "🥇"; break;
+                            case 1: position = "🥈"; break;
+                            case 2: position = "🥉"; break;
+                            default: position = (i + 1) + "."; break;
                         }
 
-                        // Crear el texto para cada jugador
-                        String playerText = position + " " + nombre + " - " + puntuacion + " punts - " + fechaHora + "\n";
-                        SpannableString spannablePlayerText = new SpannableString(playerText);
-
-                        // Aplicar estilos según la posición
-                        if (i == 0) {
-                            spannablePlayerText.setSpan(new RelativeSizeSpan(1.25f), 0, playerText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            spannablePlayerText.setSpan(new StyleSpan(Typeface.BOLD), 0, playerText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        } else if (i == 1 || i == 2) {
-                            spannablePlayerText.setSpan(new RelativeSizeSpan(1.15f), 0, playerText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        } else {
-                            spannablePlayerText.setSpan(new RelativeSizeSpan(1.05f), 0, playerText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        }
-
-                        // Agregar el texto al builder
-                        rankingBuilder.append(spannablePlayerText);
-
-                        // Añadir un espacio adicional entre líneas
-                        if (i < jsonArray.length() - 1) {
-                            rankingBuilder.append("\n");
-                        }
+                        rankingBuilder.append(position)
+                                .append(" ")
+                                .append(nombre)
+                                .append(" - ")
+                                .append(puntuacion)
+                                .append(" pts - ")
+                                .append(fechaHora)
+                                .append("\n\n");
                     }
 
-                    rankingTextView.setText(rankingBuilder);
+                    rankingTextView.setText(rankingBuilder.toString());
                 } catch (Exception e) {
                     e.printStackTrace();
-                    rankingTextView.setText("Error loading ranking.");
+                    rankingTextView.setText("Error al cargar el ranking");
                 }
             } else {
-                rankingTextView.setText("Failed to connect. Please check your internet connection.");
+                rankingTextView.setText("Error de conexión");
             }
         }
+
+
     }
 }
-
