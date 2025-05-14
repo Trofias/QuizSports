@@ -35,6 +35,7 @@ public class SoundSettingsActivity extends AppCompatActivity {
             } else {
                 MusicController.resumeMusic(this);
             }
+
         });
     }
 }
